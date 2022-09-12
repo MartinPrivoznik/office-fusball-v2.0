@@ -1,0 +1,28 @@
+{
+  "name": "office-fusballl",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "blk-design-system-react": "^1.2.0",
+    "firebase": "^9.9.4",
+    "firebase-admin": "^11.0.1",
+    "formik": "^2.2.9",
+    "next": "^12.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0",
+    "sass": "^1.54.9",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.0"
+  }
+}
