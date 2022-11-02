@@ -1,13 +1,77 @@
-import { Box, Typography, TextField, Button, Modal } from '@mui/material'
+import {
+    Box,
+    Typography,
+    TextField,
+    Button,
+    Modal,
+    Alert,
+    LinearProgress,
+} from '@mui/material'
+import { useState } from 'react'
+import useAuth from '../../hooks/useAuth'
 
 function RegistrationModal({ open, handleClose }) {
-    const handleSubmit = (event) => {
+    const { registerUser, isBusy } = useAuth()
+    const [registerSuccess, setRegisterSuccess] = useState(false)
+    const [registerError, setRegisterError] = useState(false)
+    const [inputErrorState, setInputErrorState] = useState({
+        nick: false,
+        email: false,
+        password: false,
+    })
+
+    const validateInputs = (userData) => {
+        setInputErrorState({
+            nick: false,
+            email: false,
+            password: false,
+        })
+
+        let success = true
+
+        if (userData.nick.length === 0) {
+            setInputErrorState({ ...inputErrorState, nick: true })
+            success = false
+        }
+        if (
+            userData.email.length === 0 ||
+            !userData.email.endsWith('@valatron.com')
+        ) {
+            setInputErrorState({ ...inputErrorState, email: true })
+            success = false
+        }
+        if (userData.password.length === 0) {
+            setInputErrorState({ ...inputErrorState, password: true })
+            success = false
+        }
+
+        return success
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault()
+
+        setRegisterSuccess(false)
+        setRegisterError(false)
+
         const data = new FormData(event.currentTarget)
-        console.log({
+
+        const userData = {
             email: data.get('email'),
             password: data.get('password'),
-        })
+            nick: data.get('nick'),
+        }
+
+        if (!validateInputs(userData)) return
+
+        const res = await registerUser(
+            userData.email,
+            userData.password,
+            userData.nick
+        )
+
+        if (res) setRegisterSuccess(true)
+        else setRegisterError(true)
     }
     return (
         <Modal
@@ -43,6 +107,7 @@ function RegistrationModal({ open, handleClose }) {
                         id="nick"
                         label="Nickname"
                         name="nick"
+                        error={inputErrorState.nick}
                         autoFocus
                     />
                     <TextField
@@ -52,6 +117,7 @@ function RegistrationModal({ open, handleClose }) {
                         id="email"
                         label="Email"
                         name="email"
+                        error={inputErrorState.email}
                         autoFocus
                     />
                     <TextField
@@ -62,7 +128,26 @@ function RegistrationModal({ open, handleClose }) {
                         label="Heslo"
                         type="password"
                         id="password"
+                        error={inputErrorState.password}
                     />
+                    {registerSuccess ? (
+                        <Alert severity="success">
+                            Registrace byla úspěšná. Na emailovou adresu vám byl
+                            zaslán link na potvrzení (Zkontrolujte spam, nemam
+                            nastavený SMTP)
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
+                    {registerError ? (
+                        <Alert severity="error">
+                            Chyba při registraci - Zkontrolujte konzoli, snad
+                            Firebase vyhodil nějakou rozumnou vyjímku
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
+                    {isBusy ? <LinearProgress /> : <></>}
                     <Button
                         type="submit"
                         fullWidth

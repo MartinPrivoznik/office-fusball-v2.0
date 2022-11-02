@@ -6,6 +6,7 @@ import {
     IconButton,
     SwipeableDrawer,
     Divider,
+    PaperProps,
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -54,7 +55,7 @@ function FusballNavbar() {
                     spacing={2}
                     sx={{
                         marginLeft: 'auto',
-                        display: { xs: 'none', sm: 'none', md: 'block' },
+                        display: { xs: 'none', sm: 'block' },
                     }}
                 >
                     <Menu handleLoginModalOpen={handleLoginModalOpen} />
@@ -62,7 +63,7 @@ function FusballNavbar() {
                 <IconButton
                     sx={{
                         marginLeft: 'auto',
-                        display: { sm: 'block', md: 'none' },
+                        display: { xs: 'block', sm: 'none' },
                     }}
                     onClick={() => setDrawerOpen(true)}
                 >
@@ -74,6 +75,9 @@ function FusballNavbar() {
                 open={drawerOpen}
                 onOpen={() => setDrawerOpen(true)}
                 onClose={() => setDrawerOpen(false)}
+                PaperProps={{
+                    sx: { minWidth: 200 },
+                }}
             >
                 <div>
                     <IconButton onClick={() => setDrawerOpen(false)}>

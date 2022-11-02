@@ -7,16 +7,40 @@ import {
     Grid,
     Button,
     Modal,
+    Alert,
+    LinearProgress,
 } from '@mui/material'
+import { useState } from 'react'
+import useAuth from '../../hooks/useAuth'
 
 function LoginModal({ open, handleClose, handleRegistrationClicked }) {
-    const handleSubmit = (event) => {
+    const { loginUser, isBusy } = useAuth()
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [showEmailVerificationMessage, setShowEmailVerificationMessage] =
+        useState(false)
+
+    const handleSubmit = async (event) => {
         event.preventDefault()
+
+        setShowErrorMessage(false)
+        setShowEmailVerificationMessage(false)
+
         const data = new FormData(event.currentTarget)
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        })
+        const usr = await loginUser(
+            data.get('email'),
+            data.get('password'),
+            data.get('rememberMe') ? true : false
+        )
+        if (!usr) {
+            setShowErrorMessage(true)
+            return
+        }
+        if (!usr.emailVerified) {
+            setShowEmailVerificationMessage(true)
+            return
+        }
+
+        handleClose()
     }
 
     if (open === undefined) return <></>
@@ -69,9 +93,32 @@ function LoginModal({ open, handleClose, handleRegistrationClicked }) {
                         autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={
+                            <Checkbox
+                                name="rememberMe"
+                                id="rememberMe"
+                                value="rememberMe"
+                                color="primary"
+                            />
+                        }
                         label="Zapamatovat si mě"
                     />
+                    {showEmailVerificationMessage ? (
+                        <Alert severity="warning">
+                            Na váš email byl odeslán potvrzovací link, prosím
+                            potvrďte jej
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
+                    {showErrorMessage ? (
+                        <Alert severity="error">
+                            Chybně zadané heslo nebo email
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
+                    {isBusy ? <LinearProgress /> : <></>}
                     <Button
                         type="submit"
                         fullWidth
