@@ -5,14 +5,18 @@ import {
     setPersistence,
     browserLocalPersistence,
     onAuthStateChanged,
+    browserSessionPersistence,
 } from 'firebase/auth'
-import { firebaseConfig } from '../../shared/firebase/firebaseConfig'
+import { firebaseConfig } from './firebaseConfig'
 
 const firebaseAuth = getAuth(firebaseConfig)
 
-export const signIn = async (email, password) => {
+export const signIn = async (email, password, rememberMe) => {
     try {
-        await setPersistence(firebaseAuth, browserLocalPersistence)
+        await setPersistence(
+            firebaseAuth,
+            rememberMe ? browserLocalPersistence : browserSessionPersistence
+        )
 
         const response = await signInWithEmailAndPassword(
             firebaseAuth,
@@ -26,12 +30,8 @@ export const signIn = async (email, password) => {
     }
 }
 
-export const signOutFromService = async (email, password) => {
-    try {
-        await signOut(firebaseAuth)
-    } catch (err) {
-        throw new Error(err)
-    }
+export const signOutFromService = async () => {
+    await signOut(firebaseAuth)
 }
 
 export const setOnAuthStateChanged = (action) => {

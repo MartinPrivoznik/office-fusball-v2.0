@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 import LoginModal from '../components/Modals/LoginModal'
+import AuthProvider from '../providers/AuthProvider'
 
 function Home() {
     return (
@@ -15,5 +16,7 @@ function Home() {
         </>
     )
 }
+
+Home.provider = AuthProvider
 
 export default Home

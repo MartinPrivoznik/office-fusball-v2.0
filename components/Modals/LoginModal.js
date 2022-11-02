@@ -18,6 +18,9 @@ function LoginModal({ open, handleClose, handleRegistrationClicked }) {
             password: data.get('password'),
         })
     }
+
+    if (open === undefined) return <></>
+
     return (
         <Modal
             open={open}

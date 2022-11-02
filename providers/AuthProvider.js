@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
 import { useRouter } from 'next/router'
-import Loader from '../Components/Components/Loader'
 import { setOnAuthStateChanged } from '../firebase/firebaseAuth'
 
 export const AuthProvider = ({ children }) => {
@@ -25,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         })
     }, [])
 
-    if (!auth || isUserLoading) return <></>
+    if (isUserLoading) return <></>
 
     return <> {children} </>
 }
