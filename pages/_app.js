@@ -1,12 +1,25 @@
-import "../assets/css/nucleo-icons.css";
-import "../assets/scss/blk-design-system-react.scss";
-import "../assets/demo/demo.css";
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import '../styles/globals.css'
 
-import {Container} from 'reactstrap';
-import Layout from '../components/Layout/Layout'
+const Noop = ({ children }) => <>{children}</>
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+})
 
 function MyApp({ Component, pageProps }) {
-  return <Container><Layout><Component {...pageProps} /></Layout></Container>
+    const ContextProvider = Component.provider || Noop
+    return (
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <ContextProvider>
+                <Component {...pageProps} />
+            </ContextProvider>
+        </ThemeProvider>
+    )
 }
 
 export default MyApp

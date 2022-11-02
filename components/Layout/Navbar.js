@@ -1,108 +1,65 @@
-import { useEffect, useState } from 'react'
-import {
-  Button,
-  Collapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  Nav,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap'
+import { AppBar, Toolbar, Button, Stack, IconButton } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import Image from 'next/image'
+import ValatronLogo from '../../assets/Valatron.png'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import LoginModal from '../Modals/LoginModal'
+import RegistrationModal from '../Modals/RegistrationModal'
 
 function FusballNavbar() {
-  const [collapseOpen, setCollapseOpen] = useState(false)
-  const [collapseOut, setCollapseOut] = useState('')
-  const [color, setColor] = useState('navbar-transparent')
-  useEffect(() => {
-    window.addEventListener('scroll', changeColor)
-    return function cleanup() {
-      window.removeEventListener('scroll', changeColor)
-    }
-  }, [])
-  const changeColor = () => {
-    if (
-      document.documentElement.scrollTop > 99 ||
-      document.body.scrollTop > 99
-    ) {
-      setColor('bg-default')
-    } else if (
-      document.documentElement.scrollTop < 100 ||
-      document.body.scrollTop < 100
-    ) {
-      setColor('navbar-transparent')
-    }
-  }
-  const toggleCollapse = () => {
-    document.documentElement.classList.toggle('nav-open')
-    setCollapseOpen(!collapseOpen)
-  }
-  const onCollapseExiting = () => {
-    setCollapseOut('collapsing-out')
-  }
-  const onCollapseExited = () => {
-    setCollapseOut('')
-  }
-  return (
-    <Navbar className={'fixed-top ' + color} color-on-scroll="100" expand="lg">
-      <Container>
-        <div className="navbar-translate">
-          <NavbarBrand to="/" id="navbar-brand">
-            <span>Valatron </span>
-            office fusball
-          </NavbarBrand>
-          <button
-            aria-expanded={collapseOpen}
-            className="navbar-toggler navbar-toggler"
-            onClick={toggleCollapse}
-          >
-            <span className="navbar-toggler-bar bar1" />
-            <span className="navbar-toggler-bar bar2" />
-            <span className="navbar-toggler-bar bar3" />
-          </button>
-        </div>
-        <Collapse
-          className={'justify-content-end ' + collapseOut}
-          navbar
-          isOpen={collapseOpen}
-          onExiting={onCollapseExiting}
-          onExited={onCollapseExited}
-        >
-          <div className="navbar-collapse-header">
-            <Row>
-              <Col className="collapse-brand" xs="6">
-                <a href="/" onClick={(e) => e.preventDefault()}>
-                  Office fusball
-                </a>
-              </Col>
-              <Col className="collapse-close text-right" xs="6">
-                <button
-                  aria-expanded={collapseOpen}
-                  className="navbar-toggler"
-                  onClick={toggleCollapse}
+    const router = useRouter()
+    const [loginModalOpen, setLoginModalOpen] = useState(false)
+    const [registrationModalOpen, setRegistrationModalOpen] = useState(false)
+
+    const handleLoginModalOpen = () => setLoginModalOpen(true)
+    const handleLoginModalClose = () => setLoginModalOpen(false)
+
+    const handleRegistrationModalOpen = () => setRegistrationModalOpen(true)
+    const handleRegistrationModalClose = () => setRegistrationModalOpen(false)
+
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <Button
+                    variant="text"
+                    size="large"
+                    onClick={() => router.push('/')}
                 >
-                  <i className="tim-icons icon-simple-remove" />
-                </button>
-              </Col>
-            </Row>
-          </div>
-          <Nav navbar>
-            <NavItem>
-              <Button color="success" className="d-none d-lg-block">
-                Přihlášení
-              </Button>
-            </NavItem>
-            <NavItem>
-              <Button color="default" className="d-none d-lg-block">
-                Registrace
-              </Button>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Container>
-    </Navbar>
-  )
+                    <Image
+                        src={ValatronLogo}
+                        alt="Valatron logo"
+                        width="35"
+                        height="35"
+                    />
+                    <p style={{ marginLeft: 6 }}>Office Fusball v2.0</p>
+                </Button>
+                <Stack direction="row" spacing={2} sx={{ marginLeft: 'auto' }}>
+                    <Button>Přehled</Button>
+                    <Button>Historie zápasů</Button>
+                    <Button onClick={() => handleLoginModalOpen()}>
+                        Přihlášení/Registrace
+                    </Button>
+                    <IconButton>
+                        <FontAwesomeIcon icon={faUser} />
+                    </IconButton>
+                </Stack>
+            </Toolbar>
+            <LoginModal
+                open={loginModalOpen}
+                handleClose={handleLoginModalClose}
+                handleRegistrationClicked={() => {
+                    handleLoginModalClose()
+                    handleRegistrationModalOpen()
+                }}
+            />
+            <RegistrationModal
+                open={registrationModalOpen}
+                handleClose={handleRegistrationModalClose}
+            />
+        </AppBar>
+    )
 }
 
 export default FusballNavbar
