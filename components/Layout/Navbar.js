@@ -1,17 +1,31 @@
-import { AppBar, Toolbar, Button, Stack, IconButton } from '@mui/material'
+import {
+    AppBar,
+    Toolbar,
+    Button,
+    Stack,
+    IconButton,
+    SwipeableDrawer,
+    Divider,
+} from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import {
+    faUser,
+    faBars,
+    faChevronRight,
+} from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image'
 import ValatronLogo from '../../assets/Valatron.png'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import LoginModal from '../Modals/LoginModal'
 import RegistrationModal from '../Modals/RegistrationModal'
+import Menu from './Menu'
 
 function FusballNavbar() {
     const router = useRouter()
     const [loginModalOpen, setLoginModalOpen] = useState(false)
     const [registrationModalOpen, setRegistrationModalOpen] = useState(false)
+    const [drawerOpen, setDrawerOpen] = useState(false)
 
     const handleLoginModalOpen = () => setLoginModalOpen(true)
     const handleLoginModalClose = () => setLoginModalOpen(false)
@@ -35,17 +49,40 @@ function FusballNavbar() {
                     />
                     <p style={{ marginLeft: 6 }}>Office Fusball v2.0</p>
                 </Button>
-                <Stack direction="row" spacing={2} sx={{ marginLeft: 'auto' }}>
-                    <Button>Přehled</Button>
-                    <Button>Historie zápasů</Button>
-                    <Button onClick={() => handleLoginModalOpen()}>
-                        Přihlášení/Registrace
-                    </Button>
-                    <IconButton>
-                        <FontAwesomeIcon icon={faUser} />
-                    </IconButton>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        marginLeft: 'auto',
+                        display: { xs: 'none', sm: 'none', md: 'block' },
+                    }}
+                >
+                    <Menu handleLoginModalOpen={handleLoginModalOpen} />
                 </Stack>
+                <IconButton
+                    sx={{
+                        marginLeft: 'auto',
+                        display: { sm: 'block', md: 'none' },
+                    }}
+                    onClick={() => setDrawerOpen(true)}
+                >
+                    <FontAwesomeIcon icon={faBars} />
+                </IconButton>
             </Toolbar>
+            <SwipeableDrawer
+                anchor="right"
+                open={drawerOpen}
+                onOpen={() => setDrawerOpen(true)}
+                onClose={() => setDrawerOpen(false)}
+            >
+                <div>
+                    <IconButton onClick={() => setDrawerOpen(false)}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </IconButton>
+                </div>
+                <Divider />
+                <Menu handleLoginModalOpen={handleLoginModalOpen} />
+            </SwipeableDrawer>
             <LoginModal
                 open={loginModalOpen}
                 handleClose={handleLoginModalClose}
