@@ -12,22 +12,9 @@ import { firebaseConfig } from './firebaseConfig'
 
 const firestore = getFirestore(firebaseConfig)
 
-export const getAllProjectData = async () => {
-    // const projectsSnapshot = await getDocs(collection(firestore, 'projects'))
-    // const parcelsSnapshot = await getDocs(collection(firestore, 'parcels'))
-    // const parcels = parcelsSnapshot.docs.map((parc) => {
-    //     return {
-    //         id: parc.id,
-    //         ...parc.data(),
-    //     }
-    // })
-    // return projectsSnapshot.docs.map((proj) => {
-    //     return {
-    //         id: proj.id,
-    //         ...proj.data(),
-    //         parcels: parcels.filter((parc) => parc.projectId === proj.id),
-    //     }
-    // })
+export const getAllUsers = async () => {
+    const usersSnapshot = await getDocs(collection(firestore, 'users'))
+    return usersSnapshot.docs.map((us) => us.data())
 }
 
 export const addUser = async (user) => {

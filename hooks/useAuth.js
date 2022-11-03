@@ -57,6 +57,11 @@ const useAuth = () => {
             await firebaseDb.addUser({
                 authUid: userId,
                 nickname: nickname,
+                defenderWin: 0,
+                defenderLose: 0,
+                attackerWin: 0,
+                attackerLose: 0,
+                winStreak: 0,
             })
 
             setBusy(false)

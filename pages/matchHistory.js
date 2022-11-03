@@ -6,8 +6,11 @@ function Home() {
     return (
         <>
             <Head>
-                <title>Office Fusball v2.0</title>
-                <meta name="description" content="Office Fusball v2.0" />
+                <title>Office Fusball v2.0 - Historie zápasů</title>
+                <meta
+                    name="description"
+                    content="Office Fusball v2.0 - Historie zápasů"
+                />
             </Head>
             <Layout></Layout>
         </>

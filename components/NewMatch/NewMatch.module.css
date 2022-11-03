@@ -1,0 +1,64 @@
+.new-match-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.score-wrapper {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.score-input {
+    width: 80px;
+    margin: 0 10px 0 10px;
+}
+
+.players-form-wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-form-part {
+    width: 200px;
+    margin-right: 20px;
+}
+
+.red-deffender {
+    margin-top: 40px;
+}
+
+.red-attacker {
+    margin-top: 140px;
+}
+
+.blue-attacker {
+    margin-top: 180px;
+}
+
+.blue-deffender {
+    margin-top: 130px;
+}
+
+.right-form-part {
+    width: 200px;
+    margin-left: 20px;
+}
+
+.foosball-image {
+    background-image: url('../../assets//FoosballTopView.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 470px;
+    width: 230px;
+}

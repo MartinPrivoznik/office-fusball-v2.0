@@ -1,16 +1,24 @@
-import { Button, IconButton } from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { Button } from '@mui/material'
 import AuthBlock from '../Shared/AuthBlock'
 import useAuth from '../../hooks/useAuth'
+import { useRouter } from 'next/router'
 
 function Menu({ handleLoginModalOpen }) {
     const { isLoggedIn } = useAuth()
+    const router = useRouter()
     return (
         <>
-            <Button>Přehled</Button>
-            <Button>Historie zápasů</Button>
-            {isLoggedIn ? <Button>Nový zápas</Button> : <></>}
+            <Button onClick={() => router.push('/')}>Přehled</Button>
+            <Button onClick={() => router.push('/matchHistory')}>
+                Historie zápasů
+            </Button>
+            {isLoggedIn ? (
+                <Button onClick={() => router.push('/newMatch')}>
+                    Nový zápas
+                </Button>
+            ) : (
+                <></>
+            )}
             <AuthBlock handleLoginModalOpen={handleLoginModalOpen} />
         </>
     )
