@@ -14,7 +14,7 @@ import { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 
 function LoginModal({ open, handleClose, handleRegistrationClicked }) {
-    const { loginUser, isBusy } = useAuth()
+    const { loginUser, isBusy, signOut } = useAuth()
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [showEmailVerificationMessage, setShowEmailVerificationMessage] =
         useState(false)
@@ -37,6 +37,7 @@ function LoginModal({ open, handleClose, handleRegistrationClicked }) {
         }
         if (!usr.emailVerified) {
             setShowEmailVerificationMessage(true)
+            signOut()
             return
         }
 

@@ -49,11 +49,16 @@ const useAuth = () => {
     const registerUser = async (email, password, nickname) => {
         try {
             setBusy(true)
-            const userId = await firebaseAuth.register(email, password)
+            const userId = await firebaseAuth.register(
+                email,
+                password,
+                nickname
+            )
             await firebaseDb.addUser({
                 authUid: userId,
                 nickname: nickname,
             })
+
             setBusy(false)
             return true
         } catch (err) {

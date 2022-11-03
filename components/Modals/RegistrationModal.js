@@ -11,7 +11,7 @@ import { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 
 function RegistrationModal({ open, handleClose }) {
-    const { registerUser, isBusy } = useAuth()
+    const { registerUser, isBusy, signOut } = useAuth()
     const [registerSuccess, setRegisterSuccess] = useState(false)
     const [registerError, setRegisterError] = useState(false)
     const [inputErrorState, setInputErrorState] = useState({
@@ -70,8 +70,10 @@ function RegistrationModal({ open, handleClose }) {
             userData.nick
         )
 
-        if (res) setRegisterSuccess(true)
-        else setRegisterError(true)
+        if (res) {
+            signOut()
+            setRegisterSuccess(true)
+        } else setRegisterError(true)
     }
     return (
         <Modal

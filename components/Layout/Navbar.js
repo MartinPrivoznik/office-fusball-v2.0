@@ -55,7 +55,7 @@ function FusballNavbar() {
                     spacing={2}
                     sx={{
                         marginLeft: 'auto',
-                        display: { xs: 'none', sm: 'block' },
+                        display: { xs: 'none', sm: 'none', md: 'block' },
                     }}
                 >
                     <Menu handleLoginModalOpen={handleLoginModalOpen} />
@@ -63,7 +63,7 @@ function FusballNavbar() {
                 <IconButton
                     sx={{
                         marginLeft: 'auto',
-                        display: { xs: 'block', sm: 'none' },
+                        display: { sm: 'block', md: 'none' },
                     }}
                     onClick={() => setDrawerOpen(true)}
                 >

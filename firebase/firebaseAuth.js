@@ -8,6 +8,7 @@ import {
     browserSessionPersistence,
     createUserWithEmailAndPassword,
     sendEmailVerification,
+    updateProfile,
 } from 'firebase/auth'
 import { firebaseConfig } from './firebaseConfig'
 
@@ -28,13 +29,19 @@ export const signIn = async (email, password, rememberMe) => {
     return response.user
 }
 
-export const register = async (email, password) => {
+export const register = async (email, password, nickname) => {
     const res = await createUserWithEmailAndPassword(
         firebaseAuth,
         email,
         password
     )
+
+    await updateProfile(res.user, {
+        displayName: nickname,
+    })
+
     await sendEmailVerification(res.user)
+
     return res.user.uid
 }
 

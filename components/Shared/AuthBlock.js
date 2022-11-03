@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 import { useState } from 'react'
 
 function AuthBlock({ handleLoginModalOpen }) {
-    const { isLoggedIn, signOut } = useAuth()
+    const { auth, isLoggedIn, signOut } = useAuth()
 
     const [menuAnchor, setMenuAnchor] = useState(null)
     const menuOpen = Boolean(menuAnchor)
@@ -21,9 +21,10 @@ function AuthBlock({ handleLoginModalOpen }) {
         <>
             {isLoggedIn ? (
                 <>
-                    <IconButton onClick={handleOpenMenu}>
+                    <Button variant="text" onClick={handleOpenMenu}>
                         <FontAwesomeIcon icon={faUser} />
-                    </IconButton>
+                        <p style={{ marginLeft: 6 }}>{auth.displayName}</p>
+                    </Button>
                     <Menu
                         id="user-menu"
                         anchorEl={menuAnchor}
